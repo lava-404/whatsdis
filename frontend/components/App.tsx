@@ -1,28 +1,33 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import type { SystemFault } from "@/lib/types";
+import { EXIT_TEXT, PRODUCT_NAME, WINDOW_TITLE } from "@/lib/copy";
+import AppMenuBar from "./AppMenuBar";
 import BootScreen from "./BootScreen";
 import Dialog from "./Dialog";
 import Scanner from "./Scanner";
+import { ScannerProvider, useScanner } from "./ScannerProvider";
 import Taskbar from "./Taskbar";
 import Window from "./Window";
 import styles from "./App.module.css";
 
-const WINDOW_TITLE = "WhatsDis \u2014 Object Scanner 2003";
-const BOOT_FLAG = "whatsdis:booted";
-
-interface DialogState extends SystemFault {
-  tone: "error" | "info";
-}
+const BOOT_FLAG = "name-that-shi:booted";
 
 export default function App() {
+  return (
+    <ScannerProvider>
+      <Shell />
+    </ScannerProvider>
+  );
+}
+
+function Shell() {
+  const { stage, dialog, showDialog, closeDialog } = useScanner();
+
   // null = not yet decided on the client. Keeps server and client markup in step.
   const [booting, setBooting] = useState<boolean | null>(null);
   const [collapsed, setCollapsed] = useState(false);
   const [maximized, setMaximized] = useState(false);
-  const [dialog, setDialog] = useState<DialogState | null>(null);
-  const [scanning, setScanning] = useState(false);
 
   useEffect(() => {
     const alreadyBooted = sessionStorage.getItem(BOOT_FLAG) === "1";
@@ -37,31 +42,26 @@ export default function App() {
     setBooting(false);
   }, []);
 
-  const handleFault = useCallback((fault: SystemFault) => {
-    setDialog({ ...fault, tone: "error" });
-  }, []);
-
   const showStartMenu = useCallback(() => {
-    setDialog({
+    showDialog({
       title: "Start",
       message: "There is no Start menu.",
       hint: "This computer does exactly one thing, and it is already on screen.",
       tone: "info",
     });
-  }, []);
+  }, [showDialog]);
 
   const attemptClose = useCallback(() => {
-    setDialog({
-      title: "WhatsDis",
+    showDialog({
+      title: PRODUCT_NAME,
       message: "This application cannot be closed.",
-      hint: "It has seen things. Minimise it instead, and we will both pretend this did not happen.",
+      hint: EXIT_TEXT,
       tone: "info",
     });
-  }, []);
+  }, [showDialog]);
 
   const toggleCollapsed = useCallback(() => setCollapsed((open) => !open), []);
   const toggleMaximized = useCallback(() => setMaximized((open) => !open), []);
-
   const focusWindow = useCallback(() => setCollapsed(false), []);
 
   const surfaceClasses = [
@@ -85,13 +85,13 @@ export default function App() {
               ))}
             </span>
           }
-          menu={["File", "Edit", "View", "Scan", "Help"]}
+          menu={<AppMenuBar />}
           collapsed={collapsed}
           onMinimize={toggleCollapsed}
           onMaximize={toggleMaximized}
           onClose={attemptClose}
         >
-          <Scanner onFault={handleFault} onScanningChange={setScanning} />
+          <Scanner />
         </Window>
       </div>
 
@@ -100,7 +100,7 @@ export default function App() {
         windowFocused={!collapsed}
         onTaskClick={focusWindow}
         onStartClick={showStartMenu}
-        scanning={scanning}
+        scanning={stage === "analysing"}
       />
 
       {dialog ? (
@@ -109,7 +109,7 @@ export default function App() {
           message={dialog.message}
           hint={dialog.hint}
           tone={dialog.tone}
-          onConfirm={() => setDialog(null)}
+          onConfirm={closeDialog}
         />
       ) : null}
 

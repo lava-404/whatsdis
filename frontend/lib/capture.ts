@@ -1,16 +1,18 @@
 import { CAPTURE_MAX_EDGE, CAPTURE_QUALITY } from "./config";
+import type { Snapshot } from "./types";
 
 /**
- * Draws the current video frame to a canvas and encodes it as JPEG.
+ * Freezes the current video frame into a still.
  *
- * The canvas is owned by the caller and reused across frames — allocating a
- * new one several times a second is exactly the kind of thing that makes a
- * "real-time" demo stutter.
+ * The frame is never mirrored here. A front-facing preview is flipped in CSS
+ * for presentation only; the model and the projection maths both work in raw
+ * camera space, and the still carries a `mirrored` flag so the UI can apply
+ * the same flip it was showing a moment ago.
  */
-export async function captureFrame(
+export async function takeSnapshot(
   video: HTMLVideoElement,
-  canvas: HTMLCanvasElement,
-): Promise<Blob | null> {
+  mirrored: boolean,
+): Promise<Snapshot | null> {
   const sourceWidth = video.videoWidth;
   const sourceHeight = video.videoHeight;
 
@@ -20,19 +22,32 @@ export async function captureFrame(
   const width = Math.round(sourceWidth * scale);
   const height = Math.round(sourceHeight * scale);
 
-  if (canvas.width !== width || canvas.height !== height) {
-    canvas.width = width;
-    canvas.height = height;
-  }
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
 
   const context = canvas.getContext("2d", { alpha: false });
   if (!context) return null;
 
-  // The frame is never mirrored here. The preview flip is presentation only;
-  // the model and the projection maths both work in raw camera space.
   context.drawImage(video, 0, 0, width, height);
 
-  return new Promise<Blob | null>((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), "image/jpeg", CAPTURE_QUALITY);
+  const blob = await new Promise<Blob | null>((resolve) => {
+    canvas.toBlob((result) => resolve(result), "image/jpeg", CAPTURE_QUALITY);
   });
+
+  if (!blob) return null;
+
+  return {
+    url: URL.createObjectURL(blob),
+    blob,
+    width,
+    height,
+    mirrored,
+    takenAt: Date.now(),
+  };
+}
+
+/** Object URLs leak until revoked; every replaced snapshot goes through here. */
+export function releaseSnapshot(snapshot: Snapshot | null): void {
+  if (snapshot) URL.revokeObjectURL(snapshot.url);
 }

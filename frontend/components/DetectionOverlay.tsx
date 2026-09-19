@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { DETECTION_TTL_MS } from "@/lib/config";
 import { formatConfidence } from "@/lib/copy";
 import { clampToElement, colorForLabel, projectBox } from "@/lib/geometry";
 import type { ObjectFit } from "@/lib/geometry";
-import type { TrackedDetection } from "@/hooks/useDetectionBuffer";
-import type { FrameInfo } from "@/lib/types";
+import type { FrameInfo, KeyedDetection } from "@/lib/types";
 import styles from "./DetectionOverlay.module.css";
 
 interface DetectionOverlayProps {
-  detections: TrackedDetection[];
+  detections: KeyedDetection[];
   frame: FrameInfo | null;
   fit: ObjectFit;
   mirrored: boolean;
@@ -20,9 +18,9 @@ interface DetectionOverlayProps {
 const TAG_HEIGHT = 24;
 
 /**
- * Draws boxes over the video.
+ * Draws boxes over the frozen still.
  *
- * The overlay is a sibling of the <video>, sized to the same box, so a single
+ * The overlay is a sibling of the image, sized to the same box, so a single
  * ResizeObserver here is enough to keep projection correct through rotation,
  * window resizing, and the mobile URL bar collapsing.
  */
@@ -66,13 +64,12 @@ export default function DetectionOverlay({
             if (!visible) return null;
 
             const color = colorForLabel(detection.label);
-            const stale = detection.ageMs > DETECTION_TTL_MS * 0.5;
             const tagInside = visible.y < TAG_HEIGHT;
 
             return (
               <div
                 key={detection.key}
-                className={`${styles.box} ${stale ? styles.stale : ""}`}
+                className={styles.box}
                 style={{
                   left: `${visible.x}px`,
                   top: `${visible.y}px`,

@@ -80,12 +80,14 @@
 
 .message {
   margin: 0 0 6px;
+  white-space: pre-line;
   font-weight: 700;
   font-size: 13px;
 }
 
 .hint {
   margin: 0;
+  white-space: pre-line;
   font-size: 12px;
   color: #43423a;
   max-width: 46ch;

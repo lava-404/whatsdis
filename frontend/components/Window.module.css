@@ -108,41 +108,10 @@
   background: linear-gradient(180deg, #ffa085 0%, #f05a3c 48%, #bd2e1b 100%);
 }
 
-/* --- menu strip --------------------------------------------------------- */
+/* --- menu slot ---------------------------------------------------------- */
 
-.menuBar {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 2px 4px;
-  background: var(--face);
-  border-bottom: 1px solid var(--face-mid);
+.menuSlot {
   flex: none;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.menuBar::-webkit-scrollbar {
-  display: none;
-}
-
-.menuItem {
-  padding: 3px 8px;
-  border: 0;
-  background: transparent;
-  font-size: 12px;
-  white-space: nowrap;
-  cursor: default;
-}
-
-.menuItem:hover {
-  background: var(--xp-blue);
-  color: #fff;
-}
-
-.menuItem u {
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
 }
 
 /* --- body --------------------------------------------------------------- */
@@ -156,6 +125,6 @@
 }
 
 .collapsed .body,
-.collapsed .menuBar {
+.collapsed .menuSlot {
   display: none;
 }

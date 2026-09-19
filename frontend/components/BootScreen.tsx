@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BOOT_LINES, SPLASH_STEPS } from "@/lib/copy";
+import { BOOT_LINES, SPLASH_STEPS, WORDMARK } from "@/lib/copy";
 import Button from "./Button";
 import styles from "./BootScreen.module.css";
 
@@ -94,7 +94,7 @@ export default function BootScreen({ onFinish }: BootScreenProps) {
         <div className={styles.splashWrap}>
           <div className={styles.splash}>
             <div className={styles.splashArt}>
-              <p className={styles.wordmark}>WHATS DIS</p>
+              <p className={styles.wordmark}>{WORDMARK}</p>
               <p className={styles.version}>
                 Object Scanner 2003 &nbsp;&middot;&nbsp; Professional Edition
               </p>

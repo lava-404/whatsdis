@@ -105,11 +105,6 @@
   border-left: 1px solid rgba(0, 0, 0, 0.7);
 }
 
-/* A box held past its last confirmation fades rather than vanishing. */
-.stale {
-  opacity: 0.45;
-}
-
 @media (max-width: 480px) {
   .tag {
     font-size: 13px;

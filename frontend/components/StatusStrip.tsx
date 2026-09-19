@@ -7,8 +7,9 @@ export type LinkState = "online" | "busy" | "offline";
 interface StatusStripProps {
   status: string;
   link: LinkState;
-  fps: number;
-  latencyMs: number | null;
+  /** How many shots have been taken this session. */
+  shots: number;
+  roundTripMs: number | null;
   inferenceMs: number | null;
   modelName: string;
   objectCount: number;
@@ -24,8 +25,8 @@ const LINK_LABEL: Record<LinkState, string> = {
 export default function StatusStrip({
   status,
   link,
-  fps,
-  latencyMs,
+  shots,
+  roundTripMs,
   inferenceMs,
   modelName,
   objectCount,
@@ -45,21 +46,21 @@ export default function StatusStrip({
       </div>
 
       <div className={styles.field}>
-        <span className={styles.key}>FPS</span>
-        <span className={styles.value}>{fps.toFixed(1)}</span>
+        <span className={styles.key}>SHOTS</span>
+        <span className={styles.value}>{String(shots).padStart(2, "0")}</span>
       </div>
 
       <div className={`${styles.field} ${styles.hideNarrow}`}>
         <span className={styles.key}>TRIP</span>
         <span className={styles.value}>
-          {latencyMs === null ? "--" : `${latencyMs}ms`}
+          {roundTripMs === null ? "--" : `${Math.round(roundTripMs)}ms`}
         </span>
       </div>
 
       <div className={`${styles.field} ${styles.hideNarrow}`}>
         <span className={styles.key}>INFER</span>
         <span className={styles.value}>
-          {inferenceMs === null ? "--" : `${inferenceMs}ms`}
+          {inferenceMs === null ? "--" : `${Math.round(inferenceMs)}ms`}
         </span>
       </div>
 

@@ -41,6 +41,36 @@
   transform: scaleX(-1);
 }
 
+/* The frozen still, laid over the (still running) preview. */
+.still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  background: #04120a;
+}
+
+/* Shutter flash. Brief, bright, and gone. */
+.flash {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  background: #fff;
+  pointer-events: none;
+  animation: flash 220ms ease-out forwards;
+}
+
+@keyframes flash {
+  from {
+    opacity: 0.92;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 /* --- scanning sweep ----------------------------------------------------- */
 
 .sweep {
@@ -106,6 +136,10 @@
   align-items: center;
   gap: 5px;
   color: #ff6b6b;
+}
+
+.busy {
+  color: var(--accent-amber);
 }
 
 .recDot {

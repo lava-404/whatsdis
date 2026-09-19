@@ -4,8 +4,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      WHATSDIS_ALLOWED_ORIGINS: "http://localhost:3000"
-      WHATSDIS_MODEL_PATH: "yolov8n.pt"
+      NTS_ALLOWED_ORIGINS: "http://localhost:3000"
+      NTS_MODEL_PATH: "yolov8n.pt"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 15s

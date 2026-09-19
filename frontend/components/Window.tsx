@@ -6,7 +6,8 @@ import styles from "./Window.module.css";
 interface WindowProps {
   title: string;
   icon?: ReactNode;
-  menu?: string[];
+  /** Rendered between the title bar and the body, e.g. a <MenuBar />. */
+  menu?: ReactNode;
   collapsed?: boolean;
   onMinimize?: () => void;
   onMaximize?: () => void;
@@ -80,16 +81,7 @@ export default function Window({
         </div>
       </div>
 
-      {menu && menu.length > 0 ? (
-        <nav className={styles.menuBar} aria-label="Application menu">
-          {menu.map((item) => (
-            <button key={item} type="button" className={styles.menuItem} tabIndex={-1}>
-              <u>{item.charAt(0)}</u>
-              {item.slice(1)}
-            </button>
-          ))}
-        </nav>
-      ) : null}
+      {menu ? <div className={styles.menuSlot}>{menu}</div> : null}
 
       <div className={styles.body}>{children}</div>
     </section>

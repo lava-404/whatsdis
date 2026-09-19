@@ -1,7 +1,7 @@
-"""WhatsDis detection service.
+"""Name That Shi detection service.
 
-Single endpoint: POST a JPEG frame, get back labelled boxes in the coordinate
-space of the frame you sent. All scaling to screen space happens in the client.
+Single endpoint: POST a JPEG still, get back labelled boxes in the coordinate
+space of the image you sent. All scaling to screen space happens in the client.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  %(levelname)-7s %(name)s  %(message)s",
 )
-logger = logging.getLogger("whatsdis")
+logger = logging.getLogger("name-that-shi")
 
 settings = get_settings()
 detector = Detector(settings)
@@ -40,9 +40,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="WhatsDis Detection Service",
+    title="Name That Shi Detection Service",
     version="1.0.0",
-    summary="YOLO object detection for a browser camera feed.",
+    summary="YOLO object detection for single stills captured in the browser.",
     lifespan=lifespan,
 )
 
@@ -86,8 +86,8 @@ async def detect(request: Request, frame: UploadFile = File(...)) -> DetectionRe
         )
 
     async with inference_slots:
-        # The client aborts in-flight requests when scanning stops; skip the
-        # work rather than burning a slot on a frame nobody will draw.
+        # The client aborts the previous request when a new shot is taken;
+        # skip the work rather than burning a slot on a frame nobody will see.
         if await request.is_disconnected():
             raise HTTPException(status_code=499, detail="Client disconnected.")
         try:

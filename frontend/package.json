@@ -1,5 +1,5 @@
 {
-  "name": "whatsdis-frontend",
+  "name": "name-that-shi-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "next": "^16.3.5",
+    "next": "15.1.6",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },

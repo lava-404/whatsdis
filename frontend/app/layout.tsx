@@ -17,10 +17,10 @@ const pressStart = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "WhatsDis \u2014 Object Scanner 2003",
+  title: "Name That Shi \u2014 Object Scanner 2003",
   description:
-    "Point your camera at something. WhatsDis will identify it, at needless expense.",
-  applicationName: "WhatsDis",
+    "Take one picture of something. Name That Shi will identify it, at needless expense.",
+  applicationName: "Name That Shi",
 };
 
 export const viewport: Viewport = {

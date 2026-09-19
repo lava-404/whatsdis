@@ -1,0 +1,124 @@
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 2px 4px;
+  background: var(--face);
+  border-bottom: 1px solid var(--face-mid);
+  /* No overflow here: it would clip the absolutely positioned dropdowns.
+     Five short labels wrap rather than scroll on a narrow phone. */
+  flex-wrap: wrap;
+  z-index: 20;
+}
+
+.trigger {
+  padding: 4px 9px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.trigger:hover,
+.triggerOpen {
+  background: var(--xp-blue);
+  color: #fff;
+}
+
+.trigger u {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* --- dropdown ----------------------------------------------------------- */
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 30;
+  min-width: 214px;
+  max-width: calc(100vw - 24px);
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+  background: var(--face);
+  border: 1px solid var(--face-dark);
+  box-shadow: var(--shadow-out), 3px 3px 0 rgba(0, 0, 0, 0.35);
+  animation: drop 90ms ease-out;
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 5px 10px 5px 22px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover:not(:disabled) {
+  background: var(--xp-blue);
+  color: #fff;
+}
+
+.item:disabled {
+  color: var(--face-mid);
+  text-shadow: 1px 1px 0 var(--face-hi);
+  cursor: default;
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shortcut {
+  flex: none;
+  opacity: 0.65;
+  font-size: 11px;
+}
+
+/* Checkmark sits in the gutter the left padding reserves. */
+.check {
+  position: absolute;
+  margin-left: -16px;
+  font-size: 11px;
+}
+
+.separator {
+  height: 0;
+  margin: 3px 2px;
+  border-top: 1px solid var(--face-mid);
+  border-bottom: 1px solid var(--face-hi);
+}
+
+.row {
+  position: relative;
+}
+
+@media (pointer: coarse) {
+  .trigger {
+    padding: 8px 12px;
+  }
+
+  .item {
+    padding: 10px 12px 10px 24px;
+  }
+}

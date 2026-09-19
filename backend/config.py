@@ -1,4 +1,4 @@
-"""Runtime configuration for the WhatsDis detection service."""
+"""Runtime configuration for the Name That Shi detection service."""
 
 from functools import lru_cache
 
@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     """Values are read from the environment or a local .env file."""
 
-    model_config = SettingsConfigDict(env_file=".env", env_prefix="WHATSDIS_")
+    model_config = SettingsConfigDict(env_file=".env", env_prefix="NTS_")
 
     # Any ultralytics checkpoint. yolov8n is the smallest and fastest, and is
     # downloaded automatically the first time the server starts.

@@ -1,21 +1,21 @@
 "use client";
 
-import { EMPTY_SCAN, formatConfidence, verdictFor } from "@/lib/copy";
+import { EMPTY_RESULT, formatConfidence, verdictFor } from "@/lib/copy";
 import { colorForLabel } from "@/lib/geometry";
-import type { TrackedDetection } from "@/hooks/useDetectionBuffer";
+import type { KeyedDetection } from "@/lib/types";
 import styles from "./DetectionPanel.module.css";
 
 interface DetectionPanelProps {
-  detections: TrackedDetection[];
-  scanning: boolean;
+  detections: KeyedDetection[];
+  hasResult: boolean;
 }
 
 const METER_CELLS = 10;
 
-/** Live inventory of everything currently on screen, plus a rude verdict. */
+/** Inventory of everything found in the last shot, plus a rude verdict. */
 export default function DetectionPanel({
   detections,
-  scanning,
+  hasResult,
 }: DetectionPanelProps) {
   const top = detections[0];
 
@@ -31,7 +31,7 @@ export default function DetectionPanel({
       <ul className={styles.list}>
         {detections.length === 0 ? (
           <li className={styles.empty}>
-            {scanning ? EMPTY_SCAN : "Scanner stopped. Nothing to report."}
+            {hasResult ? EMPTY_RESULT : "No shot taken yet. Nothing to report."}
           </li>
         ) : (
           detections.map((detection, index) => {
