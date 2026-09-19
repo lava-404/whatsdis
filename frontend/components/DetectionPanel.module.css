@@ -1,0 +1,137 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 4px;
+}
+
+.legend {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 6px 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #46443c;
+}
+
+.count {
+  font-family: var(--font-crt);
+  font-size: 15px;
+  letter-spacing: 0;
+  color: #1c4d98;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 3px;
+  list-style: none;
+  overflow-y: auto;
+  background: #fff;
+  box-shadow: var(--shadow-in);
+  overscroll-behavior: contain;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 7px;
+  border-bottom: 1px solid #ebe9de;
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  background: var(--swatch, var(--accent-lime));
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* Segmented LED meter — reads as hardware, not a progress bar. */
+.meter {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: #dedbcc;
+  box-shadow: var(--shadow-well);
+}
+
+.cell {
+  width: 5px;
+  height: 11px;
+  background: #c3c0b1;
+}
+
+.cellOn {
+  background: var(--swatch, var(--accent-lime));
+  box-shadow: 0 0 4px color-mix(in srgb, var(--swatch, #9dff3c) 60%, transparent);
+}
+
+.percent {
+  font-family: var(--font-crt);
+  font-size: 16px;
+  min-width: 3.4ch;
+  text-align: right;
+  color: #1b1b17;
+}
+
+.empty {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  height: 100%;
+  min-height: 84px;
+  padding: 14px;
+  text-align: center;
+  color: #6f6c60;
+  font-size: 12px;
+}
+
+/* --- verdict strip ------------------------------------------------------ */
+
+.verdict {
+  flex: none;
+  padding: 7px 9px;
+  background: linear-gradient(180deg, #ffe89a 0%, #ffc93c 100%);
+  border: 1px solid #a8801a;
+  box-shadow: var(--shadow-well);
+  font-family: var(--font-crt);
+  font-size: 16px;
+  line-height: 1.2;
+  color: #40310a;
+  text-align: center;
+  animation: nudge 220ms ease-out;
+}
+
+@keyframes nudge {
+  from {
+    transform: translateY(-3px);
+    opacity: 0;
+  }
+}

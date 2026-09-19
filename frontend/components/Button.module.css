@@ -1,0 +1,103 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 16px;
+  border: 1px solid var(--face-dark);
+  border-radius: 0;
+  background: var(--face);
+  box-shadow: var(--shadow-out);
+  color: var(--face-ink);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background-color 90ms linear;
+}
+
+.button:hover:not(:disabled) {
+  background: #f6f4e8;
+}
+
+/* The whole point of a chunky button: it physically goes in. */
+.button:active:not(:disabled) {
+  box-shadow: var(--shadow-in);
+  padding: 7px 15px 5px 17px;
+}
+
+.button:disabled {
+  color: var(--face-mid);
+  text-shadow: 1px 1px 0 var(--face-hi);
+  cursor: not-allowed;
+}
+
+/* --- tinted variants ---------------------------------------------------- */
+
+.start {
+  background: linear-gradient(180deg, #8fe26a 0%, #56b23b 52%, #3d8f29 100%);
+  color: #0c2a06;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.start:hover:not(:disabled) {
+  background: linear-gradient(180deg, #a3ef7e 0%, #63c545 52%, #45a02e 100%);
+}
+
+.stop {
+  background: linear-gradient(180deg, #ff8f8f 0%, #e04b4b 52%, #b62f2f 100%);
+  color: #2d0606;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.stop:hover:not(:disabled) {
+  background: linear-gradient(180deg, #ffa5a5 0%, #ec5c5c 52%, #c63838 100%);
+}
+
+/* Glossy top sheen for the tinted variants only. */
+.start::before,
+.stop::before {
+  content: "";
+  position: absolute;
+  inset: 2px 2px 55% 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0)
+  );
+  pointer-events: none;
+}
+
+.large {
+  min-height: 46px;
+  padding: 10px 26px;
+  font-size: 14px;
+}
+
+.large:active:not(:disabled) {
+  padding: 11px 25px 9px 27px;
+}
+
+.block {
+  width: 100%;
+}
+
+.icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Touch targets stay comfortable on phones. */
+@media (pointer: coarse) {
+  .button {
+    min-height: 44px;
+    padding: 10px 18px;
+  }
+
+  .large {
+    min-height: 52px;
+  }
+}

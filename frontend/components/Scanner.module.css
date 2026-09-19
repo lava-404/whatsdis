@@ -1,0 +1,251 @@
+.scanner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+  flex: 1;
+}
+
+/* --- banner ------------------------------------------------------------- */
+
+.banner {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+  overflow: hidden;
+  background: linear-gradient(105deg, #1b1470 0%, #7a17b4 52%, #c4127e 100%);
+  box-shadow: var(--shadow-well);
+  color: #fff;
+}
+
+.banner::before {
+  content: "";
+  position: absolute;
+  inset: -120% -30%;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255, 255, 255, 0.09) 0deg 6deg,
+    transparent 6deg 12deg
+  );
+  pointer-events: none;
+}
+
+.wordmark {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(13px, 3.4vw, 21px);
+  line-height: 1.2;
+  color: var(--accent-lime);
+  text-shadow:
+    2px 2px 0 var(--accent-magenta),
+    3px 3px 0 rgba(0, 0, 0, 0.55);
+}
+
+.tagline {
+  position: relative;
+  margin: 6px 0 0;
+  font-size: clamp(9px, 1.8vw, 11px);
+  letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 52ch;
+}
+
+/* The one badge in the whole interface that is allowed to be obnoxious. */
+.badge {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  padding: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #fff6a8, #ffb300 58%, #d17a00 100%);
+  box-shadow:
+    inset 0 -4px 10px rgba(0, 0, 0, 0.3),
+    0 3px 0 rgba(0, 0, 0, 0.35);
+  color: #4a2c00;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.6;
+  text-align: center;
+  transform: rotate(-9deg);
+}
+
+/* --- work area ---------------------------------------------------------- */
+
+.work {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 4px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.side {
+  flex: none;
+  width: 310px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px;
+  background: var(--face);
+  box-shadow: var(--shadow-in);
+}
+
+.sideTop {
+  flex: 0 0 auto;
+  max-height: 46%;
+  min-height: 0;
+  display: flex;
+}
+
+.sideBottom {
+  flex: 1;
+  min-height: 120px;
+  display: flex;
+}
+
+.sideTop > *,
+.sideBottom > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* --- controls ----------------------------------------------------------- */
+
+.controls {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px;
+  background: linear-gradient(180deg, #f2efe3 0%, #ddd9c9 100%);
+  box-shadow: var(--shadow-out);
+}
+
+.controls > :first-child {
+  flex: 1 1 200px;
+}
+
+/* --- mobile panel tabs -------------------------------------------------- */
+
+.tabs {
+  display: none;
+  gap: 2px;
+  padding: 4px 4px 0;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 10px;
+  border: 0;
+  background: var(--face-alt);
+  box-shadow: var(--shadow-out);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.tabActive {
+  background: var(--face);
+  box-shadow: var(--shadow-in);
+}
+
+/* =========================================================================
+   Responsive
+   The layout reflows rather than shrinking: panels stack behind tabs, the
+   stage keeps the viewport, and every control stays a real tap target.
+   ========================================================================= */
+
+@media (max-width: 900px) {
+  .work {
+    flex-direction: column;
+  }
+
+  .side {
+    width: auto;
+    flex: none;
+    /* Enough to read, never enough to push the camera off screen. */
+    height: clamp(180px, 30vh, 260px);
+  }
+
+  .sideTop,
+  .sideBottom {
+    max-height: none;
+    flex: 1;
+  }
+
+  .tabs {
+    display: flex;
+  }
+
+  /* Behind tabs, only the selected panel is mounted. */
+  .sideHidden {
+    display: none;
+  }
+
+  .badge {
+    width: 64px;
+    height: 64px;
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 560px) {
+  .banner {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .badge {
+    width: 54px;
+    height: 54px;
+    font-size: 6px;
+  }
+
+  .controls > * {
+    flex: 1 1 calc(50% - 3px);
+  }
+
+  .controls > :first-child {
+    flex: 1 1 100%;
+  }
+}
+
+/* Phone in landscape: almost no vertical room, so drop the banner and put
+   the panels beside the tube again. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .banner {
+    display: none;
+  }
+
+  .work {
+    flex-direction: row;
+  }
+
+  .side {
+    width: min(300px, 38vw);
+    height: auto;
+    flex: none;
+  }
+
+  .controls {
+    padding: 4px;
+  }
+}

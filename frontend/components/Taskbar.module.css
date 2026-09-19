@@ -1,0 +1,142 @@
+.taskbar {
+  position: relative;
+  /* Sits above the desktop's drawn hill, which is a positioned pseudo-element. */
+  z-index: 2;
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  height: var(--taskbar-h);
+  background: linear-gradient(
+    180deg,
+    #3b8ae8 0%,
+    #1f5fc9 8%,
+    #1a52c4 88%,
+    #0b3286 100%
+  );
+  border-top: 1px solid #6fb2ff;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.start {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 18px 0 12px;
+  border: 0;
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(
+    180deg,
+    #7ed35a 0%,
+    #43a327 45%,
+    #2c7d18 100%
+  );
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  flex: none;
+}
+
+.start:hover {
+  filter: brightness(1.08);
+}
+
+.start:active {
+  filter: brightness(0.92);
+}
+
+.startGlyph {
+  display: grid;
+  grid-template-columns: 7px 7px;
+  grid-template-rows: 7px 7px;
+  gap: 2px;
+  transform: rotate(-8deg);
+}
+
+.startGlyph span {
+  background: #fff;
+  opacity: 0.92;
+}
+
+.tasks {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  overflow: hidden;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  min-width: 0;
+  max-width: 260px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.taskActive {
+  background: rgba(0, 0, 0, 0.22);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* --- system tray -------------------------------------------------------- */
+
+.tray {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  background: linear-gradient(180deg, #2f8ad6 0%, #1667bd 45%, #0d4c98 100%);
+  box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 12px;
+}
+
+.trayIcon {
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  line-height: 1;
+  color: #d9ecff;
+}
+
+.clock {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 560px) {
+  .start span:last-child {
+    display: none;
+  }
+
+  .start {
+    padding: 0 14px;
+  }
+
+  .hideNarrow {
+    display: none;
+  }
+}

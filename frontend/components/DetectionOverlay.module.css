@@ -1,0 +1,123 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.box {
+  position: absolute;
+  border: 2px solid var(--box-color, var(--accent-lime));
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 0 12px color-mix(in srgb, var(--box-color, #9dff3c) 55%, transparent);
+  animation: lockOn 160ms ease-out;
+}
+
+@keyframes lockOn {
+  from {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Corner brackets, so it reads as a targeting reticle rather than a div. */
+.corner {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--box-color, var(--accent-lime));
+}
+
+.tl {
+  top: -3px;
+  left: -3px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.tr {
+  top: -3px;
+  right: -3px;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.bl {
+  bottom: -3px;
+  left: -3px;
+  border-right: 0;
+  border-top: 0;
+}
+
+.br {
+  bottom: -3px;
+  right: -3px;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* --- label chip --------------------------------------------------------- */
+
+.tag {
+  position: absolute;
+  left: -2px;
+  bottom: 100%;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: stretch;
+  max-width: calc(100% + 60px);
+  background: var(--box-color, var(--accent-lime));
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  font-family: var(--font-crt);
+  font-size: 15px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Flip the chip inside the box when there is no room above it. */
+.tagInside {
+  bottom: auto;
+  top: 2px;
+  left: 2px;
+  margin-bottom: 0;
+}
+
+.tagName {
+  padding: 3px 6px 2px;
+  color: #06170b;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tagScore {
+  padding: 3px 6px 2px;
+  background: rgba(0, 0, 0, 0.78);
+  color: var(--box-color, var(--accent-lime));
+  border-left: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+/* A box held past its last confirmation fades rather than vanishing. */
+.stale {
+  opacity: 0.45;
+}
+
+@media (max-width: 480px) {
+  .tag {
+    font-size: 13px;
+  }
+
+  .corner {
+    width: 8px;
+    height: 8px;
+    border-width: 2px;
+  }
+}

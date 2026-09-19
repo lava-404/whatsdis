@@ -1,0 +1,236 @@
+/* =========================================================================
+   WhatsDis — design tokens
+   A 2003 desktop application: Luna-blue chrome, putty-grey control faces,
+   hard 1px bevels, and one CRT-green terminal doing the actual talking.
+   ========================================================================= */
+
+:root {
+  /* Title bars and selection — Luna blue */
+  --xp-blue-deep: #06256f;
+  --xp-blue: #1a52c4;
+  --xp-blue-bright: #4c8ef7;
+  --xp-blue-pale: #b9d4ff;
+
+  /* Control faces — the putty plastic everything is moulded from */
+  --face: #ece9d8;
+  --face-alt: #d6d2c2;
+  --face-hi: #ffffff;
+  --face-mid: #aca899;
+  --face-dark: #716f64;
+  --face-ink: #1b1b17;
+
+  /* Desktop wallpaper */
+  --desk-sky-top: #1b7fd4;
+  --desk-sky-bottom: #0a3f86;
+  --desk-hill: #4fae3f;
+
+  /* CRT terminal */
+  --crt-bg: #061a0c;
+  --crt-ink: #43ff7a;
+  --crt-ink-dim: #1f8c41;
+  --crt-warn: #ffd23f;
+  --crt-error: #ff5a5a;
+
+  /* Accents used sparingly — the tacky-on-purpose layer */
+  --accent-magenta: #ff2fd0;
+  --accent-cyan: #34e1ff;
+  --accent-amber: #ffbe00;
+  --accent-lime: #9dff3c;
+
+  /* Structure */
+  --bevel-hard: 0;
+  --title-h: 30px;
+  --taskbar-h: 40px;
+
+  /* Bevels as tokens, so CSS modules can apply them without fighting
+     global utility classes over specificity. */
+  --shadow-out:
+    inset 1px 1px 0 0 var(--face-hi),
+    inset -1px -1px 0 0 var(--face-dark),
+    inset 2px 2px 0 0 var(--face),
+    inset -2px -2px 0 0 var(--face-mid);
+  --shadow-in:
+    inset 1px 1px 0 0 var(--face-dark),
+    inset -1px -1px 0 0 var(--face-hi),
+    inset 2px 2px 0 0 var(--face-mid),
+    inset -2px -2px 0 0 var(--face);
+  --shadow-well:
+    inset 1px 1px 0 0 var(--face-mid),
+    inset -1px -1px 0 0 var(--face-hi);
+  --shadow-drop: 3px 3px 0 0 rgba(0, 0, 0, 0.45);
+
+  --font-ui: "Tahoma", "Verdana", "Geneva", "DejaVu Sans", sans-serif;
+  --font-crt: var(--font-vt323), "Courier New", monospace;
+  --font-pixel: var(--font-press-start), "Courier New", monospace;
+
+  color-scheme: light;
+}
+
+/* The chrome is a 2003 application and does not have a dark mode. Locking the
+   scheme keeps form controls and scrollbars from being re-tinted by the OS. */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--face-ink);
+  background: var(--desk-sky-bottom);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Keyboard focus has to survive all the fake chrome. */
+:focus-visible {
+  outline: 2px dotted var(--face-ink);
+  outline-offset: 2px;
+}
+
+/* =========================================================================
+   Bevel system
+   Four inset shadows: outer highlight, outer shadow, inner highlight, inner
+   shadow. This is what makes a rectangle read as moulded plastic.
+   ========================================================================= */
+
+.bevelOut {
+  border: var(--bevel-hard);
+  box-shadow:
+    inset 1px 1px 0 0 var(--face-hi),
+    inset -1px -1px 0 0 var(--face-dark),
+    inset 2px 2px 0 0 var(--face),
+    inset -2px -2px 0 0 var(--face-mid);
+}
+
+.bevelIn {
+  border: var(--bevel-hard);
+  box-shadow:
+    inset 1px 1px 0 0 var(--face-dark),
+    inset -1px -1px 0 0 var(--face-hi),
+    inset 2px 2px 0 0 var(--face-mid),
+    inset -2px -2px 0 0 var(--face);
+}
+
+/* Thin sunken well, for read-only panels and status fields. */
+.wellIn {
+  box-shadow:
+    inset 1px 1px 0 0 var(--face-mid),
+    inset -1px -1px 0 0 var(--face-hi);
+}
+
+/* Glossy plastic sheen, laid over a coloured surface. */
+.gloss {
+  position: relative;
+}
+
+.gloss::after {
+  content: "";
+  position: absolute;
+  inset: 1px 1px 50% 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.06)
+  );
+  pointer-events: none;
+}
+
+/* CRT scanlines + vignette, applied to camera and terminal surfaces. */
+.crtLines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.16) 0px,
+    rgba(0, 0, 0, 0.16) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+.crtLines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Scrollbars, styled to match the chrome where the browser allows it. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--face-mid) var(--face-alt);
+}
+
+*::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: repeating-conic-gradient(var(--face-alt) 0% 25%, var(--face) 0% 50%)
+    50% / 2px 2px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--face);
+  box-shadow:
+    inset 1px 1px 0 0 var(--face-hi),
+    inset -1px -1px 0 0 var(--face-dark),
+    inset 2px 2px 0 0 var(--face),
+    inset -2px -2px 0 0 var(--face-mid);
+}
+
+/* =========================================================================
+   Motion
+   Everything decorative is opt-out. The interface must still be legible and
+   fully operable with animation switched off.
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
